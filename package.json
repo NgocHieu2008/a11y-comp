@@ -1,5 +1,5 @@
 {
-  "name": "@NgocHieu2008/a11y-comp",
+  "name": "@ngochieu/a11y-comp",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.umd.js",
@@ -22,6 +22,6 @@
     "react": "^18.2.0"
   },
   "publishConfig": {
-    "@NgocHieu2008:registry": "https://npm.pkg.github.com"
+    "@ngochieu:registry": "https://npm.pkg.github.com"
     }
 }
