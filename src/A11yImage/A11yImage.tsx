@@ -12,11 +12,6 @@ export interface ImageProps {
     alt: NonEmptyString;
   
     /**
-     * Chú thích cho hình ảnh. (Tùy chọn)
-     */
-    caption?: string;
-  
-    /**
      * Chiều rộng của hình ảnh. (Tùy chọn)
      */
     width?: number | string;
@@ -47,10 +42,9 @@ function createNonEmptyString(value: string): NonEmptyString {
 }
 
 export const A11yImage = React.forwardRef<HTMLButtonElement, ImageProps>(
-  ({src, alt, width, height, ariaLabel, decorative, caption, ...props}, ref)=>{
+  ({src, alt, width, height, ariaLabel, decorative, ...props})=>{
 
   return (
-    <figure  ref={ref} >
       <img
         src={src}
         alt={alt}
@@ -60,8 +54,6 @@ export const A11yImage = React.forwardRef<HTMLButtonElement, ImageProps>(
         aria-hidden={decorative ? "true" : undefined}
         {...props} 
       />
-      {caption && <figcaption>{caption}</figcaption>}
-    </figure>
   );
 })
 
