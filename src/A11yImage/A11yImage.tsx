@@ -32,18 +32,17 @@ export interface ImageProps {
     decorative?: boolean;
 }
 
-type NonEmptyString = string & { _brand: "NonEmptyString" };
+export type NonEmptyString = string & { _brand: "NonEmptyString" };
 
-function createNonEmptyString(value: string): NonEmptyString {
+export function createNonEmptyString(value: string): NonEmptyString {
   if (value === "") {
     throw new Error("Value cannot be empty");
   }
   return value as NonEmptyString;
 }
 
-export const A11yImage = React.forwardRef<HTMLButtonElement, ImageProps>(
+export const A11yImage = React.forwardRef<HTMLImageElement, ImageProps>(
   ({src, alt, width, height, ariaLabel, decorative, ...props})=>{
-
   return (
       <img
         src={src}
