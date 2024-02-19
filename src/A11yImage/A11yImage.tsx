@@ -46,21 +46,23 @@ function createNonEmptyString(value: string): NonEmptyString {
   return value as NonEmptyString;
 }
 
-const AccessibleImage = (props:ImageProps) => {
-    const {src, alt, width, height, ariaLabel, decorative, caption, ...otherProps} = props
-    return (
-      <figure>
-        <img
-          src={src}
-          alt={alt}
-          width={width}
-          height={height}
-          aria-label={ariaLabel}
-          aria-hidden={decorative ? "true" : undefined}
-        />
-        {caption && <figcaption>{caption}</figcaption>}
-      </figure>
-    );
-  };
+export const A11yImage = React.forwardRef<HTMLButtonElement, ImageProps>(
+  ({src, alt, width, height, ariaLabel, decorative, caption, ...props}, ref)=>{
+
+  return (
+    <figure  ref={ref} >
+      <img
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        aria-label={ariaLabel}
+        aria-hidden={decorative ? "true" : undefined}
+        {...props} 
+      />
+      {caption && <figcaption>{caption}</figcaption>}
+    </figure>
+  );
+})
+
   
-  export default AccessibleImage;
