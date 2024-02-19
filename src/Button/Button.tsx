@@ -1,7 +1,5 @@
 import React from "react";
 
-import "./Button.css";
-
 export interface ButtonProps extends React.ComponentProps<"button"> {
  kind?: "primary" | "secondary";
 }
