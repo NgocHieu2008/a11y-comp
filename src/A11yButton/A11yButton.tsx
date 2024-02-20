@@ -71,7 +71,7 @@ export function getRelativeLuminance(color: string): number {
   );
 }
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+export const A11yButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       disabled,
@@ -98,7 +98,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           backgroundColor: isContrastValid ? backgroundColor : "#F0F0F0",
           color: isContrastValid ? color : "#000000",
           minWidth: "44px",
-          minHeight: "44px",
           fontSize: fontSize,
         }}
         aria-label={ariaLabel}
