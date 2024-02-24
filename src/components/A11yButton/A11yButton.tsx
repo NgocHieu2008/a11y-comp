@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { getContrastRatio } from "../../hooks/getContrastRatio";
 
 export interface ButtonProps extends React.ComponentProps<"button"> {
   /**
@@ -18,12 +19,10 @@ export interface ButtonProps extends React.ComponentProps<"button"> {
   color?: string;
   /**
    * The text to displlay on the button
-   * @default "A button"
    */
-  text?: string;
+  text: string;
   /**
    * aria-label to more information for button
-   * @default "A button"
    */
   ariaLabel?: string;
   /**
@@ -36,39 +35,6 @@ export interface ButtonProps extends React.ComponentProps<"button"> {
    * @default 0
    */
   tabIndex?: number;
-}
-
-export function getContrastRatio(backgroundColor: any, color: any) {
-  const lumA = getRelativeLuminance(backgroundColor);
-  const lumB = getRelativeLuminance(color);
-  return (Math.max(lumA, lumB) + 0.05) / (Math.min(lumA, lumB) + 0.05);
-}
-
-export function getRelativeLuminance(color: string): number {
-  const hexColor = color && color.startsWith("#") ? color.slice(1) : color;
-
-  const red = hexColor?.substr(0, 2)
-    ? parseInt(hexColor.substr(0, 2), 16) / 255
-    : 0;
-  const green = hexColor?.substr(2, 2)
-    ? parseInt(hexColor.substr(2, 2), 16) / 255
-    : 0;
-  const blue = hexColor?.substr(4, 2)
-    ? parseInt(hexColor.substr(4, 2), 16) / 255
-    : 0;
-
-  const gammaCorrectedRed =
-    red <= 0.03928 ? red / 12.92 : Math.pow((red + 0.055) / 1.055, 2.4);
-  const gammaCorrectedGreen =
-    green <= 0.03928 ? green / 12.92 : Math.pow((green + 0.055) / 1.055, 2.4);
-  const gammaCorrectedBlue =
-    blue <= 0.03928 ? blue / 12.92 : Math.pow((blue + 0.055) / 1.055, 2.4);
-
-  return (
-    0.2126 * gammaCorrectedRed +
-    0.7152 * gammaCorrectedGreen +
-    0.0722 * gammaCorrectedBlue
-  );
 }
 
 export const A11yButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
