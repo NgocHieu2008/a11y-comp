@@ -1,5 +1,5 @@
 import React from "react";
-import {A11yListItem} from "./A11yListItem";
+import {ListItem} from "./ListItem";
 
 interface ListProps {
   /**
@@ -23,7 +23,7 @@ interface ListProps {
   ariaLabelledby?: string;
 }
 
-export const A11yList = React.forwardRef<HTMLOListElement|HTMLUListElement, ListProps>(({
+export const List = React.forwardRef<HTMLOListElement|HTMLUListElement, ListProps>(({
   items,
   ordered = false,
   ariaLabel,
@@ -40,7 +40,7 @@ export const A11yList = React.forwardRef<HTMLOListElement|HTMLUListElement, List
       role="list"
     >
       {items.map((item, index) => (
-        <A11yListItem key={index} item={item} />
+        <ListItem key={index} item={item} />
       ))}
     </ElementType>
   );

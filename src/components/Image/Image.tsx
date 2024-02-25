@@ -41,7 +41,7 @@ export function createNonEmptyString(value: string): NonEmptyString {
   return value as NonEmptyString;
 }
 
-export const A11yImage = React.forwardRef<HTMLImageElement, ImageProps>(
+export const Image = React.forwardRef<HTMLImageElement, ImageProps>(
   ({src, alt, width, height, ariaLabel, decorative, ...props})=>{
   return (
       <img

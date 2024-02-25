@@ -1,5 +1,5 @@
 import React from 'react';
-import {LinkButtonStyle} from './A11yLinkStyled.style'
+import {LinkButtonStyle} from './LinkStyled.style'
 
 // Define the LinkProps interface to encompass potential props
 export interface LinkProps {
@@ -21,7 +21,7 @@ export interface LinkProps {
 }
 
 // Create a functional component using forwardRef for accessibility reference
-export const A11yLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
+export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
   ({ text, href, isNewWindow, ...props }, ref) => {
     const isButton = !href;
 

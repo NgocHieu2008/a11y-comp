@@ -18,7 +18,7 @@ export interface ListItemProps {
   tabIndex?: number;
 }
 
-export const A11yListItem = React.forwardRef<HTMLLIElement, ListItemProps>(({
+export const ListItem = React.forwardRef<HTMLLIElement, ListItemProps>(({
   item,
   ariaLabel,
   tabIndex = 0,

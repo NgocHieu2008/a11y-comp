@@ -37,7 +37,7 @@ export interface ButtonProps extends React.ComponentProps<"button"> {
   tabIndex?: number;
 }
 
-export const A11yButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       disabled,
