@@ -10,4 +10,3 @@ export * from './components/Radio';
 export * from './components/Checkbox';
 export * from './components/Rate';
 export * from './components/Select';
-export * from './components/ProductCard'

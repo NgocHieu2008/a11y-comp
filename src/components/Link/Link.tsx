@@ -1,51 +1,48 @@
-import React from 'react';
-import {LinkButtonStyle} from './LinkStyled.style'
+import React, { MouseEvent, KeyboardEvent } from 'react';
 
-// Define the LinkProps interface to encompass potential props
 export interface LinkProps {
-  /**
-   * The text content of the link.
-   */
-  text: string;
-
-  /**
-   * The URL of the link.
-   */
-  href?: string;
-
-  /**
-   * Whether the link opens in a new window/tab.
-   */
-  isNewWindow?: boolean;
-
+  href: string;
+  children: React.ReactNode;
+  newWindow?: boolean;
+  onClick?: () => void;
 }
 
-// Create a functional component using forwardRef for accessibility reference
-export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
-  ({ text, href, isNewWindow, ...props }, ref) => {
-    const isButton = !href;
+export const Link: React.FC<LinkProps> = ({ href, children, newWindow, onClick }) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLAnchorElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      onClick?.();
+    }
+  };
 
-    // Construct an aria-label with descriptive text
-    const ariaLabel = `${text}${isNewWindow ? ' (opens in a new window)' : ''}`;
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (newWindow) {
+      const win = window.open(href, '_blank');
+      win?.focus();
+    } else {
+      window.location.href = href;
+    }
+    event.preventDefault();
+    onClick?.();
+  };
 
-    return (
-      <span ref={ref}>
-        {isButton ? (
-          <LinkButtonStyle type="button" aria-label={ariaLabel} {...props}>
-            {text}
-          </LinkButtonStyle>
-        ) : (
-          <a
-            ref={ref}
-            href={href}
-            aria-label={ariaLabel}
-            rel={isNewWindow ? 'noopener noreferrer' : undefined}
-            {...props}
-          >
-            {text}
-          </a>
-        )}
-      </span>
-    );
-  }
-);
+  const ariaLabel = newWindow ? `${children} - Opens in a new window` : children as string;
+
+  return (
+    <a
+      href={href}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      role="button"
+      aria-label={ariaLabel}
+    >
+      {children}
+    </a>
+  );
+};
+
+Link.defaultProps = {
+  newWindow: false,
+  onClick: () => {},
+};

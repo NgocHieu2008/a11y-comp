@@ -1,126 +1,54 @@
-import React, { useState } from "react";
+import React, { forwardRef, Ref } from 'react';
+import styled from 'styled-components';
+
+export const ErrorMessage = styled.p`
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+`;
 
 export interface FormInputProps {
-  /**
-   * Label text cho element input.
-   */
   label: string;
-
-  /**
-   * Kiểu dữ liệu của input (e.g., text, email, password).
-   */
-  type?: string;
-
-  /**
-   * Giá trị mặc định cho input.
-   */
-  defaultValue?: string;
-
-  /**
-   * Placeholder
-   */
-  placeHolder?:string;
-
-  /**
-   * Callback khi giá trị input thay đổi.
-   */
-  onChange?: (value: string) => void;
-
-  /**
-   * Hiển thị label hay không.
-   */
-  hideLabel?: boolean;
-
-  /**
-   * Props ràng buộc cho input value.
-   */
+  type: string;
+  name: string;
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  error?: string | undefined;
+  labelPosition?: 'top' | 'left';
   required?: boolean;
-  minLength?: number;
-  email?: boolean;
-
-  /**
-   * Hiển thị thông báo lỗi hay không.
-   */
-  showError?: boolean;
-
-  /**
-   * Text thông báo lỗi.
-   */
-  errorMessage?: string;
-
-  /**
-   * ID của element input (bắt buộc).
-   */
-  id: string;
-
-  /**
-   * Các props bổ sung cho element input.
-   */
-  inputProps?: React.ComponentProps<"input">;
-
-  /**
-   * Các props bổ sung cho element label.
-   */
-  labelProps?: React.ComponentProps<"label">;
+  disabled?: boolean;
 }
 
-export const FormInput=React.forwardRef<HTMLInputElement, FormInputProps>(({
-  label,
-  type = "text",
-  defaultValue = "",
-  placeHolder="",
-  onChange,
-  hideLabel = false,
-  required,
-  minLength,
-  email,
-  showError = false,
-  errorMessage,
-  id,
-  inputProps = {},
-  labelProps = {},
-}) => {
-  const [value, setValue] = useState(defaultValue);
+export const FormInput = forwardRef<HTMLInputElement, FormInputProps>((props, ref) => {
+  const { label, type, name, value, onChange, onKeyDown, error, labelPosition, required, disabled } = props;
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
-    if (onChange) {
-      onChange(event.target.value);
-    }
-  };
+  const labelStyle = labelPosition === 'top' ? { marginBottom: '0.5rem' } : {};
+  const labelTextAlignStyle: React.CSSProperties = labelPosition === 'left' ? { textAlign: 'right', marginRight: '0.5rem' } : {};
 
-  const isValid = () => {
-    if (!required && !minLength && !email) return true;
-
-    if (required && !value) return false;
-
-    if (minLength && value.length < minLength) return false;
-
-    if (email && !/\S+@\S+\.\S+/.test(value)) return false;
-
-    return true;
+  const inputProps = {
+    ref,
+    type,
+    name,
+    value,
+    onChange,
+    onKeyDown,
+    id: name,
+    disabled,
+    required,
   };
 
   return (
     <div>
-      {!hideLabel && (
-        <label htmlFor={id} {...labelProps}>
-          {label}
-        </label>
-      )}
+      <label style={labelStyle} htmlFor={name}>
+        <span style={labelTextAlignStyle}>{label}</span>
+      </label>
       <input
-        id={id}
-        type={type}
-        placeholder={placeHolder}
-        value={value}
-        onChange={handleChange}
         {...inputProps}
-        aria-labelledby={!hideLabel ? id : undefined}
-        aria-invalid={!isValid()}
+        aria-describedby={`${name}-error`}
+        aria-invalid={error ? 'true' : 'false'}
       />
-      {showError && !isValid() && (
-        <p className="error-message">{errorMessage}</p>
-      )}
+      {error && <ErrorMessage id={`${name}-error`} role="alert">{error}</ErrorMessage>}
     </div>
   );
 });
